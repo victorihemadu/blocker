@@ -16,7 +16,7 @@ type PrivateKey struct {
 	key ed25519.PrivateKey
 }
 
-func generatePrivateKey() *PrivateKey {
+func GeneratePrivateKey() *PrivateKey {
 	seed := make([]byte, seedLen)
 	_, err := io.ReadFull(rand.Reader, seed)
 	if err != nil {
@@ -32,7 +32,7 @@ func (p *PrivateKey) Bytes() []byte {
 }
 
 func (p *PrivateKey) Sign(msg []byte) *Signature {
-	return Signature{
+	return &Signature{
 		ed25519.Sign(p.key, msg),
 	}
 }
@@ -63,5 +63,5 @@ func (s *Signature) Bytes() []byte {
 }
 
 func (s *Signature) Verify(pubKey *PublicKey, msg []byte) bool {
-	return ed25519.Verify(pubKey.key, msg, s.value
+	return ed25519.Verify(pubKey.key, msg, s.value)
 }
