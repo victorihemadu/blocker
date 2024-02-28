@@ -7,7 +7,7 @@ import (
 )
 
 func TestGeneratePrivateKey(t *testing.T) {
-	privKey := generatePrivateKey()
+	privKey := GeneratePrivateKey()
 	assert.Equal(t, len(privKey.Bytes()), privKeyLen)
 
 	pubKey := privKey.Public()
@@ -15,8 +15,10 @@ func TestGeneratePrivateKey(t *testing.T) {
 }
 
 func TestPrivateKeySign(t *testing.T) {
-	privKey := generatePrivateKey()
+	privKey := GeneratePrivateKey()
+	pubKey := privKey.Public()
 	msg := []byte("foo bar baz")
 
 	sig := privKey.Sign(msg)
+	assert.True(t, sig.Verify(pubKey, msg))
 }
