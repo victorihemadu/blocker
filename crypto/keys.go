@@ -12,6 +12,7 @@ const (
 	privKeyLen = 64
 	pubKeyLen = 32
 	seedLen = 32
+	addressLen = 20
 )
 type PrivateKey struct {
 	key ed25519.PrivateKey
@@ -49,6 +50,12 @@ func (p *PrivateKey) Public() *PublicKey {
 
 type PublicKey struct {
 	key ed25519.PublicKey
+}
+
+func (p *PublicKey) Address() Address {
+	return Address{
+		value: p.key[len(p.key)-addressLen:]
+	}
 }
 
 func (p *PublicKey) Bytes() []byte {
