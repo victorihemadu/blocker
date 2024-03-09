@@ -21,4 +21,12 @@ func TestPrivateKeySign(t *testing.T) {
 
 	sig := privKey.Sign(msg)
 	assert.True(t, sig.Verify(pubKey, msg))
+
+	//Test with invalid msg
+	assert.False(t, sig.Verify(pubKey, []byte("foo")))
+
+	//Test with invalid pubkey
+	invalidPrivKey := GeneratePrivateKey()
+	invalidPubKey := invalidPrivKey.Public()
+	assert.False(t, sig.Verify(invalidPubKey, msg))
 }
