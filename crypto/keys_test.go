@@ -1,8 +1,11 @@
 package crypto
 
 import (
-	"testing"
+	"crypto/rand"
+	"encoding/hex"
 	"fmt"
+	"io"
+	"testing"
 
 	"github.com/stretchr/testify/assert"
 )
@@ -13,6 +16,12 @@ func TestGeneratePrivateKey(t *testing.T) {
 
 	pubKey := privKey.Public()
 	assert.Equal(t, len(pubKey.Bytes()), pubKeyLen)
+}
+
+func TestNewPrivateKeyFromString(t *testing.T) {
+	seed := make([]byte, 32)
+	io.ReadFull(rand.Reader, seed)
+	fmt.Println(hex.EncodeToString(seed))
 }
 
 func TestPrivateKeySign(t *testing.T) {
